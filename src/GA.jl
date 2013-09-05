@@ -37,13 +37,13 @@ end
 
 # -------
 
-function freezedry(model::GAmodel, entity::EntityData)
+function freeze(model::GAmodel, entity::EntityData)
     push!(model.freezer, entity)
 end
 
-function freezedry(model::GAmodel, entity)
+function freeze(model::GAmodel, entity)
     entitydata = EntityData(entity, model.curr_generation)
-    freezedry(model, entitydata)
+    freeze(model, entitydata)
 end
 
 function run(model::GAmodel)
