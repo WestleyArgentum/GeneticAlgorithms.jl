@@ -1,6 +1,8 @@
 
 module GA
 
+importall Base
+
 export  EntityData,
         GAmodel,
 
@@ -34,6 +36,8 @@ end
 function EntityData(entity, model::GAmodel)
     EntityData(entity, model.curr_generation, nothing)
 end
+
+isless(a::EntityData, b::EntityData) = (a.score < b.score)
 
 # -------
 
