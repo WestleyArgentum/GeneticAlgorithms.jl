@@ -1,12 +1,14 @@
 
 module GA
 
+# -------
+
 importall Base
 
 export  EntityData,
         GAmodel,
 
-        freezedry,
+        freeze,
         run
 
 # -------
@@ -43,6 +45,7 @@ isless(a::EntityData, b::EntityData) = (a.score < b.score)
 
 function freeze(model::GAmodel, entity::EntityData)
     push!(model.freezer, entity)
+    #println("Freezing: ", entity)
 end
 
 function freeze(model::GAmodel, entity)
@@ -82,12 +85,16 @@ function create_initial_population(model::GAmodel)
     end
 end
 
+function internal_eval_entity(ed::EntityData)
+    ed.score = eval_entity(ed.entity)
+    ed
+end
+
 function evaluate_population(model::GAmodel)
-    pop_size = length(model.curr_pop)
-    for i = 1:pop_size
-        entitydata = model.curr_pop[i]
-        entitydata.score = eval_entity(entitydata.entity)
-    end
+    model.curr_pop = pmap(internal_eval_entity, model.curr_pop)
+    sort!(model.curr_pop)
+
+    freeze(model, model.curr_pop[length(model.curr_pop)])
 end
 
 function crossover_population(model::GAmodel, groupings)
