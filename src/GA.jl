@@ -25,6 +25,8 @@ type GAmodel
     GAmodel() = new(0, 1, EntityData[], EntityData[], MersenneTwister(time_ns()))
 end
 
+global _g_model
+
 # -------
 
 type EntityData
@@ -45,9 +47,11 @@ isless(a::EntityData, b::EntityData) = (a.score < b.score)
 
 # -------
 
+freeze(entity) = freeze(_g_model, entity)
+
 function freeze(model::GAmodel, entity::EntityData)
     push!(model.freezer, entity)
-    #println("Freezing: ", entity)
+    println("Freezing: ", entity)
 end
 
 function freeze(model::GAmodel, entity)
@@ -75,6 +79,8 @@ end
 # -------
 
 function reset_model(model::GAmodel)
+    global _g_model = model
+
     model.curr_generation = 1
     empty!(model.curr_pop)
     empty!(model.freezer)
@@ -95,8 +101,6 @@ end
 function evaluate_population(model::GAmodel)
     model.curr_pop = pmap(internal_eval_entity, model.curr_pop)
     sort!(model.curr_pop)
-
-    freeze(model, model.curr_pop[length(model.curr_pop)])
 end
 
 function crossover_population(model::GAmodel, groupings)
