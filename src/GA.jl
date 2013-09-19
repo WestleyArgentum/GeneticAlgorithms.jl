@@ -20,7 +20,9 @@ type GAmodel
     curr_pop::Array
     freezer::Array
 
-    GAmodel() = new(0, 1, EntityData[], EntityData[])
+    rng::AbstractRNG
+
+    GAmodel() = new(0, 1, EntityData[], EntityData[], MersenneTwister(time_ns()))
 end
 
 # -------
