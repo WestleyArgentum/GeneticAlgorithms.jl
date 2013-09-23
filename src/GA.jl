@@ -22,7 +22,9 @@ type GAmodel
 
     rng::AbstractRNG
 
-    GAmodel() = new(0, 1, EntityData[], EntityData[], MersenneTwister(time_ns()))
+    ga
+
+    GAmodel() = new(0, 1, EntityData[], EntityData[], MersenneTwister(time_ns()), nothing)
 end
 
 global _g_model
@@ -66,9 +68,9 @@ function run(model::GAmodel)
     while true
         evaluate_population(model)
 
-        review_entities(model.curr_pop) && break
+        model.ga.review_entities(model.curr_pop) && break
 
-        groupings = group_entities(model.curr_pop)
+        groupings = model.ga.group_entities(model.curr_pop)
 
         crossover_population(model, groupings)
         mutate_population(model)
@@ -88,18 +90,18 @@ end
 
 function create_initial_population(model::GAmodel)
     for i = 1:model.initial_pop_size
-        entitydata = EntityData(create_entity(i), model.curr_generation)
+        entitydata = EntityData(model.ga.create_entity(i), model.curr_generation)
         push!(model.curr_pop, entitydata)
     end
 end
 
-function internal_eval_entity(ed::EntityData)
-    ed.score = eval_entity(ed.entity)
+function internal_eval_entity(model::GAmodel, ed::EntityData)
+    ed.score = model.ga.eval_entity(ed.entity)
     ed
 end
 
 function evaluate_population(model::GAmodel)
-    model.curr_pop = pmap(internal_eval_entity, model.curr_pop)
+    model.curr_pop = pmap((entity)->internal_eval_entity(model, entity), model.curr_pop)
     sort!(model.curr_pop)
 end
 
@@ -113,14 +115,14 @@ function crossover_population(model::GAmodel, groupings)
 
     for group in groupings
         parents = { old_pop[i].entity for i in group }
-        entitydata = EntityData(crossover(parents), model.curr_generation)
+        entitydata = EntityData(model.ga.crossover(parents), model.curr_generation)
         push!(model.curr_pop, entitydata)
     end
 end
 
 function mutate_population(model::GAmodel)
     for entity in model.curr_pop
-        mutate(entity.entity)
+        model.ga.mutate(entity.entity)
     end
 end
 
