@@ -61,6 +61,14 @@ function freeze(model::GAmodel, entity)
     freeze(model, entitydata)
 end
 
+function run(mdl::Module; initial_pop_size = 100)
+    model = GAmodel()
+    model.ga = mdl
+    model.initial_pop_size = initial_pop_size
+
+    run(model)
+end
+
 function run(model::GAmodel)
     reset_model(model)
     create_initial_population(model)
