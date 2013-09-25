@@ -78,7 +78,12 @@ function run(model::GAmodel)
 
         model.ga.review_entities(model.curr_pop) && break
 
-        groupings = model.ga.group_entities(model.curr_pop)
+        grouper = @task model.ga.group_entities(model.curr_pop)
+        groupings = Any[]
+        while !istaskdone(grouper)
+            group = consume(grouper)
+            group != nothing && push!(groupings, group)
+        end
 
         crossover_population(model, groupings)
         mutate_population(model)
