@@ -3,10 +3,9 @@ addprocs(1)
 
 println("num procs: ", nprocs())
 
-require("../src/GA.jl")
-import GA
+using GA
 
-require("testga.jl")
+require("GA/test/testga.jl")
 import Testga
 
 GA.run(Testga; initial_pop_size = 8)
