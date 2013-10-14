@@ -11,4 +11,4 @@ before_install:
 script:
     - julia -e 'Pkg.init(); run(`ln -s $(pwd()) $(Pkg.dir())/GA`); Pkg.resolve()'
     - julia -e 'using GA; @assert isdefined(:GA); @assert typeof(GA) === Module'
-    - julia test/GA.jl
+    - julia -e 'require("test/testga.jl"); test_serial(); test_parallel()'
