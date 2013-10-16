@@ -19,13 +19,12 @@ module testga
     end
 
     function group_entities(population)
-        if population[end].entity.genes >= 16
+        if population[1].entity.genes >= 16
             return
         end
 
-        pop_count = length(population)
-        for i in 1:pop_count
-            produce([i, pop_count])
+        for i in 1:length(population)
+            produce([1, i])
         end
     end
 

@@ -116,7 +116,7 @@ end
 
 function evaluate_population(model::GAmodel)
     model.curr_pop = pmap((entity)->internal_eval_entity(model, entity), model.curr_pop)
-    sort!(model.curr_pop)
+    sort!(model.curr_pop; rev = true)
 end
 
 function crossover_population(model::GAmodel, groupings)
