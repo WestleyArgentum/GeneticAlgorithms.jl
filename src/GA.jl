@@ -15,7 +15,7 @@ export  EntityData,
 
 type GAmodel
     initial_pop_size::Int
-    curr_generation::Int
+    gen_num::Int
 
     curr_pop::Array
     freezer::Array
@@ -42,7 +42,7 @@ function EntityData(entity, generation::Int)
 end
 
 function EntityData(entity, model::GAmodel)
-    EntityData(entity, model.curr_generation, nothing)
+    EntityData(entity, model.gen_num, nothing)
 end
 
 isless(a::EntityData, b::EntityData) = (a.score < b.score)
@@ -57,7 +57,7 @@ function freeze(model::GAmodel, entity::EntityData)
 end
 
 function freeze(model::GAmodel, entity)
-    entitydata = EntityData(entity, model.curr_generation)
+    entitydata = EntityData(entity, model.gen_num)
     freeze(model, entitydata)
 end
 
@@ -97,14 +97,14 @@ end
 function reset_model(model::GAmodel)
     global _g_model = model
 
-    model.curr_generation = 1
+    model.gen_num = 1
     empty!(model.curr_pop)
     empty!(model.freezer)
 end
 
 function create_initial_population(model::GAmodel)
     for i = 1:model.initial_pop_size
-        entitydata = EntityData(model.ga.create_entity(i), model.curr_generation)
+        entitydata = EntityData(model.ga.create_entity(i), model.gen_num)
         push!(model.curr_pop, entitydata)
     end
 end
@@ -125,11 +125,11 @@ function crossover_population(model::GAmodel, groupings)
     model.curr_pop = EntityData[]
     sizehint(model.curr_pop, length(old_pop))
 
-    model.curr_generation = model.curr_generation + 1
+    model.gen_num += 1
 
     for group in groupings
         parents = { old_pop[i].entity for i in group }
-        entitydata = EntityData(model.ga.crossover(parents), model.curr_generation)
+        entitydata = EntityData(model.ga.crossover(parents), model.gen_num)
         push!(model.curr_pop, entitydata)
     end
 end
