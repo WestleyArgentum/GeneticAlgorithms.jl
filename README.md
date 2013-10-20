@@ -36,7 +36,7 @@ The framework will expect your fitness function to be called `eval_entity`. It s
 
 ```julia
 function eval_entity(ent)
-    # in this case we want the expression `a + 2b + 3c + 4d + 5e - 42` to be as close to 0 as possible
+    # we want the expression `a + 2b + 3c + 4d + 5e - 42` to be as close to 0 as possible
 
     score = ent.abcde[1] + 2 * ent.abcde[2] + 3 * ent.abcde[3] + 4 * ent.abcde[4] + 5 * ent.abcde[5]
 
@@ -44,23 +44,21 @@ function eval_entity(ent)
 end
 ```
 
-###Review Entities
-Next we need a function called `review_entities` which will take a whole population (sorted by score) and return true if we've created a satisfactory entity and we can stop running the GA.
+###Group Entities
+Grouping entities operates on a population (an array of entities sorted by score) and will be run as a task and expected to emit groups of entities that will be passed into a crossover function. Group entitites also provides a nice way to terminate the GA; if you want to stop, simply produce no groups.
 
 ```julia
-function review_entities(population)
-    best = population[end]
-
-    if best.score == 0
-        return true  # we're done!
+function group_entities(pop)
+    if pop[1].score == 0
+        return
     end
 
-    return false  # keep going
+    # simple naive groupings that pair the best entitiy with every other
+    for i in 1:length(population)
+        produce([1, i])
+    end
 end
 ```
-
-###Group Entities
-
 
 ###Crossover
 

@@ -5,6 +5,9 @@ module testga
 
     type TestMonster
         genes
+        score
+
+        TestMonster(num) = new(num, nothing)
     end
 
     # -------
@@ -19,7 +22,7 @@ module testga
     end
 
     function group_entities(population)
-        if population[1].entity.genes >= 16
+        if population[1].score >= 16
             return
         end
 

@@ -13,39 +13,34 @@ export  EntityData,
 
 # -------
 
+type EntityData
+    entity
+    generation::Int
+
+    EntityData(entity, generation::Int) = new(entity, generation)
+    EntityData(entity, model) = new(entity, model.gen_num)
+end
+
+isless(a::EntityData, b::EntityData) = (a.score < b.score)
+
+# -------
+
 type GAmodel
     initial_pop_size::Int
     gen_num::Int
 
-    curr_pop::Array
-    freezer::Array
+    population::Array
+    pop_data::Array{EntityData}
+    freezer::Array{EntityData}
 
     rng::AbstractRNG
 
     ga
 
-    GAmodel() = new(0, 1, EntityData[], EntityData[], MersenneTwister(time_ns()), nothing)
+    GAmodel() = new(0, 1, Any[], EntityData[], EntityData[], MersenneTwister(time_ns()), nothing)
 end
 
 global _g_model
-
-# -------
-
-type EntityData
-    entity
-    generation::Int
-    score
-end
-
-function EntityData(entity, generation::Int)
-    EntityData(entity, generation, nothing)
-end
-
-function EntityData(entity, model::GAmodel)
-    EntityData(entity, model.gen_num, nothing)
-end
-
-isless(a::EntityData, b::EntityData) = (a.score < b.score)
 
 # -------
 
@@ -76,7 +71,7 @@ function run(model::GAmodel)
     while true
         evaluate_population(model)
 
-        grouper = @task model.ga.group_entities(model.curr_pop)
+        grouper = @task model.ga.group_entities(model.population)
         groupings = Any[]
         while !istaskdone(grouper)
             group = consume(grouper)
@@ -98,45 +93,53 @@ function reset_model(model::GAmodel)
     global _g_model = model
 
     model.gen_num = 1
-    empty!(model.curr_pop)
+    empty!(model.population)
+    empty!(model.pop_data)
     empty!(model.freezer)
 end
 
 function create_initial_population(model::GAmodel)
     for i = 1:model.initial_pop_size
-        entitydata = EntityData(model.ga.create_entity(i), model.gen_num)
-        push!(model.curr_pop, entitydata)
+        entity = model.ga.create_entity(i)
+
+        push!(model.population, entity)
+        push!(model.pop_data, EntityData(entity, model.gen_num))
     end
 end
 
-function internal_eval_entity(model::GAmodel, ed::EntityData)
-    ed.score = model.ga.eval_entity(ed.entity)
-    ed
+function internal_eval_entity(model::GAmodel, entity)
+    entity.score = model.ga.eval_entity(entity)
+    entity
 end
 
 function evaluate_population(model::GAmodel)
-    model.curr_pop = pmap((entity)->internal_eval_entity(model, entity), model.curr_pop)
-    sort!(model.curr_pop; rev = true)
+    model.population = pmap((entity)->internal_eval_entity(model, entity), model.population)
+    sort!(model.population; lt = (lhs, rhs)->lhs.score < rhs.score, rev = true)
 end
 
 function crossover_population(model::GAmodel, groupings)
-    old_pop = model.curr_pop
+    old_pop = model.population
 
-    model.curr_pop = EntityData[]
-    sizehint(model.curr_pop, length(old_pop))
+    model.population = Any[]
+    sizehint(model.population, length(old_pop))
+
+    model.pop_data = EntityData[]
+    sizehint(model.pop_data, length(old_pop))
 
     model.gen_num += 1
 
     for group in groupings
-        parents = { old_pop[i].entity for i in group }
-        entitydata = EntityData(model.ga.crossover(parents), model.gen_num)
-        push!(model.curr_pop, entitydata)
+        parents = { old_pop[i] for i in group }
+        entity = model.ga.crossover(parents)
+
+        push!(model.population, entity)
+        push!(model.pop_data, EntityData(model.ga.crossover(parents), model.gen_num))
     end
 end
 
 function mutate_population(model::GAmodel)
-    for entity in model.curr_pop
-        model.ga.mutate(entity.entity)
+    for entity in model.population
+        model.ga.mutate(entity)
     end
 end
 
