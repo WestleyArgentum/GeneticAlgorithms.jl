@@ -45,7 +45,7 @@ end
 ```
 
 ###Group Entities
-Grouping entities operates on a population (an array of entities sorted by score) and will be run as a task and expected to emit groups of entities that will be passed into a crossover function. Group entitites also provides a nice way to terminate the GA; if you want to stop, simply produce no groups.
+`group_entities` operates on a population (an array of entities sorted by score) and will be run as a task and expected to emit groups of entities that will be passed into a crossover function. `group_entitites` also provides a nice way to terminate the GA; if you want to stop, simply produce no groups.
 
 ```julia
 function group_entities(pop)
