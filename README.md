@@ -75,7 +75,7 @@ function group_entities(pop)
 end
 ```
 
-###Crossover
+###Define Crossover
 `crossover` should take a group of parents and produce a new child entity. In our case we'll just grab properties from random parents.
 
 ```julia
@@ -93,7 +93,7 @@ function crossover(group)
 end
 ```
 
-###Mutate
+###Define Mutation
 `mutate` operates on a single entity and is responsible for deciding whether or not to actually mutate.
 
 ```julia
