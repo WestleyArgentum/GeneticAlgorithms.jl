@@ -40,8 +40,13 @@ The framework will expect your fitness function to be called `eval_entity`. It s
 
 ```julia
 function eval_entity(ent)
-    # we want the expression `a + 2b + 3c + 4d + 5e - 42` to be as close to 0 as possible
-    score = ent.abcde[1] + 2 * ent.abcde[2] + 3 * ent.abcde[3] + 4 * ent.abcde[4] + 5 * ent.abcde[5]
+    # we want the expression `a + 2b + 3c + 4d + 5e - 42`
+    # to be as close to 0 as possible
+    score = ent.abcde[1] +
+            2 * ent.abcde[2] +
+            3 * ent.abcde[3] +
+            4 * ent.abcde[4] +
+            5 * ent.abcde[5]
 
     abs(score - 42)
 end
