@@ -3,7 +3,9 @@ using GA
 
 module testga
 
-    type TestMonster
+    using GA
+
+    type TestMonster <: Entity
         genes
         score
 

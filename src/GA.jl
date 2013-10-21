@@ -5,11 +5,19 @@ module GA
 
 importall Base
 
-export  EntityData,
+export  Entity,
         GAmodel,
 
         freeze,
         run
+
+# -------
+
+abstract Entity
+
+function isless(lhs::Entity, rhs::Entity)
+    lhs.score < rhs.score
+end
 
 # -------
 
@@ -114,7 +122,7 @@ end
 
 function evaluate_population(model::GAmodel)
     model.population = pmap((entity)->internal_eval_entity(model, entity), model.population)
-    sort!(model.population; lt = (lhs, rhs)->lhs.score < rhs.score, rev = true)
+    sort!(model.population; rev = true)
 end
 
 function crossover_population(model::GAmodel, groupings)

@@ -1,13 +1,20 @@
 
-
 module equalityga
 
-type EqualityMonster
+import Base.isless
+
+using GA
+
+type EqualityMonster <: Entity
     abcde::Array
     score
 
     EqualityMonster() = new(Array(Int, 5), nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
+end
+
+function isless(lhs::EqualityMonster, rhs::EqualityMonster)
+    abs(lhs.score) > abs(rhs.score)
 end
 
 function create_entity(num)
@@ -21,7 +28,7 @@ function eval_entity(ent)
 
     println(score - 42)
 
-    -abs(score - 42)
+    abs(score - 42)
 end
 
 function group_entities(pop)
