@@ -1,6 +1,6 @@
 #GeneticAlgorithms.jl
 
-[![Build Status](https://travis-ci.org/WestleyArgentum/GA.jl.png?branch=master)](https://travis-ci.org/WestleyArgentum/GA.jl)
+[![Build Status](https://travis-ci.org/WestleyArgentum/GeneticAlgorithms.jl.png?branch=master)](https://travis-ci.org/WestleyArgentum/GeneticAlgorithms.jl)
 
 ####This is a lightweight framework that simplifies the process of creating genetic algorithms and running them in parallel.
 
