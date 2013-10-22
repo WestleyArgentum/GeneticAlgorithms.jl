@@ -112,7 +112,9 @@ end
 ###Run your GA!
 
 ```julia
+using GeneticAlgorithms
 require("GeneticAlgorithms/test/equalityga.jl")
+
 model = runga(equalityga; initial_pop_size = 16)
 
 model.population  # the the latest population when the GA exited
