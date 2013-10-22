@@ -107,3 +107,12 @@ function mutate(ent)
     ent.abcde[rand_element] = rand(Int) % 43
 end
 ```
+
+###Run your GA!
+
+```julia
+require("GA/test/equalityga.jl")
+model = GA.run(equalityga; initial_pop_size = 16)
+
+model.population  # the the latest population when the GA exited
+```

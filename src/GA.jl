@@ -91,6 +91,8 @@ function run(model::GAmodel)
         crossover_population(model, groupings)
         mutate_population(model)
     end
+
+    model
 end
 
 # -------
