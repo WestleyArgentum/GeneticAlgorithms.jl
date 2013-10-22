@@ -1,9 +1,9 @@
 
-using GA
+using GeneticAlgorithms
 
 module testga
 
-    using GA
+    using GeneticAlgorithms
 
     type TestMonster <: Entity
         genes
@@ -48,16 +48,16 @@ end
 # -------
 
 function test_serial()
-    GA.run(testga; initial_pop_size = 8)
+    runga(testga; initial_pop_size = 8)
 end
 
 # -------
 
 function test_parallel(; nprocs_to_add = 2)
     addprocs(nprocs_to_add)
-    require("GA/test/testga.jl")
+    require("GeneticAlgorithms/test/testga.jl")
 
     println("nprocs: $(nprocs())")
 
-    GA.run(testga; initial_pop_size = 8)
+    runga(testga; initial_pop_size = 8)
 end

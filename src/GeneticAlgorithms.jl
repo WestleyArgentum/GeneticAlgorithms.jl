@@ -1,5 +1,5 @@
 
-module GA
+module GeneticAlgorithms
 
 # -------
 
@@ -9,7 +9,7 @@ export  Entity,
         GAmodel,
 
         freeze,
-        run
+        runga
 
 # -------
 
@@ -62,15 +62,15 @@ function freeze(model::GAmodel, entity)
     freeze(model, entitydata)
 end
 
-function run(mdl::Module; initial_pop_size = 128)
+function runga(mdl::Module; initial_pop_size = 128)
     model = GAmodel()
     model.ga = mdl
     model.initial_pop_size = initial_pop_size
 
-    run(model)
+    runga(model)
 end
 
-function run(model::GAmodel)
+function runga(model::GAmodel)
     reset_model(model)
     create_initial_population(model)
 

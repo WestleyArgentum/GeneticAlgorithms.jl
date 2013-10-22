@@ -1,4 +1,5 @@
-#GA.jl
+#GeneticAlgorithms.jl
+
 [![Build Status](https://travis-ci.org/WestleyArgentum/GA.jl.png?branch=master)](https://travis-ci.org/WestleyArgentum/GA.jl)
 
 ####This is a lightweight framework that simplifies the process of creating genetic algorithms and running them in parallel.
@@ -17,7 +18,7 @@ end
 ```
 
 ###Define an Entity
-Your entity should inherit from the abstract `GA.Entity`. The framework will look for a `create_entity` function and will use it to create an initial population.
+Your entity should inherit from the abstract `GeneticAlgorithms.Entity`. The framework will look for a `create_entity` function and will use it to create an initial population.
 
 ```julia
 type EqualityMonster <: Entity
@@ -111,8 +112,8 @@ end
 ###Run your GA!
 
 ```julia
-require("GA/test/equalityga.jl")
-model = GA.run(equalityga; initial_pop_size = 16)
+require("GeneticAlgorithms/test/equalityga.jl")
+model = runga(equalityga; initial_pop_size = 16)
 
 model.population  # the the latest population when the GA exited
 ```

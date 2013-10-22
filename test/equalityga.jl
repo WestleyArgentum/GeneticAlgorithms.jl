@@ -3,7 +3,7 @@ module equalityga
 
 import Base.isless
 
-using GA
+using GeneticAlgorithms
 
 type EqualityMonster <: Entity
     abcde::Array
@@ -32,11 +32,11 @@ function fitness(ent)
 end
 
 function group_entities(pop)
+    println("BEST: ", pop[1])
+
     if pop[1].fitness == 0
         return
     end
-
-    println("BEST: ", pop[1])
 
     # simple naive groupings that pair the best entitiy with every other
     for i in 1:length(pop)
