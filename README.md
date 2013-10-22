@@ -17,12 +17,12 @@ end
 ```
 
 ###Define an Entity
-The framework will look for a `create_entity` function and will use it to create an initial population. Your entity should inherit from the abstract `GA.Entity` and contain a member called `score`.
+Your entity should inherit from the abstract `GA.Entity`. The framework will look for a `create_entity` function and will use it to create an initial population.
 
 ```julia
 type EqualityMonster <: Entity
     abcde::Array
-    score
+    fitness
 
     EqualityMonster() = new(Array(Int, 5), nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
@@ -34,11 +34,13 @@ function create_entity(num)
 end
 ```
 
+Note that `EqualityMonster` has a field `fitness`. By default this field will be used by the framework to store the entities calculated fitness, so that you have access to it elsewhere in your GA. If you'd like to change the behavior you can overload `fitness!(entity::EqualityMonster, score)`.
+
 ###Create a Fitness Function
-The framework will expect your fitness function to be called `eval_entity`. It should take in a single entity and return a score.
+The framework will expect a `fitness` function. It should take in a single entity and return a fitness score.
 
 ```julia
-function eval_entity(ent)
+function fitness(ent)
     # we want the expression `a + 2b + 3c + 4d + 5e - 42`
     # to be as close to 0 as possible
     score = ent.abcde[1] +
@@ -51,11 +53,11 @@ function eval_entity(ent)
 end
 ```
 
-Note: `isless(l::Entity, r::Entity)` will return `l.score < r.score`, but in our case entities with scores closer to 0 are doing better. So we should define a specialized `isless`.
+Note that `isless(l::Entity, r::Entity)` will return `l.fitness < r.fitness`, but that in this case entities with scores closer to 0 are doing better. So we should define a specialized `isless`.
 
 ```julia
 function isless(lhs::EqualityMonster, rhs::EqualityMonster)
-    abs(lhs.score) > abs(rhs.score)
+    abs(lhs.fitness) > abs(rhs.fitness)
 end
 ```
 
@@ -64,7 +66,7 @@ end
 
 ```julia
 function group_entities(pop)
-    if pop[1].score == 0
+    if pop[1].fitness == 0
         return
     end
 
