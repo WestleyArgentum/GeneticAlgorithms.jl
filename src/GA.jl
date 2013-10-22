@@ -15,9 +15,9 @@ export  Entity,
 
 abstract Entity
 
-function isless(lhs::Entity, rhs::Entity)
-    lhs.score < rhs.score
-end
+isless(lhs::Entity, rhs::Entity) = lhs.fitness < rhs.fitness
+
+fitness!(ent::Entity, fitness_score) = ent.fitness = fitness_score
 
 # -------
 
@@ -28,8 +28,6 @@ type EntityData
     EntityData(entity, generation::Int) = new(entity, generation)
     EntityData(entity, model) = new(entity, model.gen_num)
 end
-
-isless(a::EntityData, b::EntityData) = (a.score < b.score)
 
 # -------
 
@@ -64,7 +62,7 @@ function freeze(model::GAmodel, entity)
     freeze(model, entitydata)
 end
 
-function run(mdl::Module; initial_pop_size = 100)
+function run(mdl::Module; initial_pop_size = 128)
     model = GAmodel()
     model.ga = mdl
     model.initial_pop_size = initial_pop_size
@@ -115,13 +113,12 @@ function create_initial_population(model::GAmodel)
     end
 end
 
-function internal_eval_entity(model::GAmodel, entity)
-    entity.score = model.ga.eval_entity(entity)
-    entity
-end
-
 function evaluate_population(model::GAmodel)
-    model.population = pmap((entity)->internal_eval_entity(model, entity), model.population)
+    scores = pmap(model.ga.fitness, model.population)
+    for i in 1:length(scores)
+        fitness!(model.population[i], scores[i])
+    end
+
     sort!(model.population; rev = true)
 end
 

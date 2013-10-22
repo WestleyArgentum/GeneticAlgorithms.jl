@@ -7,14 +7,14 @@ using GA
 
 type EqualityMonster <: Entity
     abcde::Array
-    score
+    fitness
 
     EqualityMonster() = new(Array(Int, 5), nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
 end
 
 function isless(lhs::EqualityMonster, rhs::EqualityMonster)
-    abs(lhs.score) > abs(rhs.score)
+    abs(lhs.fitness) > abs(rhs.fitness)
 end
 
 function create_entity(num)
@@ -22,7 +22,7 @@ function create_entity(num)
     EqualityMonster(rand(Int, 5) % 43)
 end
 
-function eval_entity(ent)
+function fitness(ent)
     # we want the expression `a + 2b + 3c + 4d + 5e - 42` to be as close to 0 as possible
     score = ent.abcde[1] + 2 * ent.abcde[2] + 3 * ent.abcde[3] + 4 * ent.abcde[4] + 5 * ent.abcde[5]
 
@@ -32,7 +32,7 @@ function eval_entity(ent)
 end
 
 function group_entities(pop)
-    if pop[1].score == 0
+    if pop[1].fitness == 0
         return
     end
 

@@ -7,7 +7,7 @@ module testga
 
     type TestMonster <: Entity
         genes
-        score
+        fitness
 
         TestMonster(num) = new(num, nothing)
     end
@@ -18,13 +18,13 @@ module testga
         TestMonster(num)
     end
 
-    function eval_entity(entity)
+    function fitness(entity)
         println("score: ", entity.genes)
         entity.genes
     end
 
     function group_entities(population)
-        if population[1].score >= 16
+        if population[1].fitness >= 16
             return
         end
 
