@@ -28,6 +28,8 @@ module testga
             return
         end
 
+        freeze(population[1])
+
         for i in 1:length(population)
             produce([1, i])
         end

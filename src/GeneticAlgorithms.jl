@@ -8,8 +8,9 @@ importall Base
 export  Entity,
         GAmodel,
 
+        runga,
         freeze,
-        runga
+        defrost
 
 # -------
 
@@ -50,8 +51,6 @@ global _g_model
 
 # -------
 
-freeze(entity) = freeze(_g_model, entity)
-
 function freeze(model::GAmodel, entity::EntityData)
     push!(model.freezer, entity)
     println("Freezing: ", entity)
@@ -61,6 +60,18 @@ function freeze(model::GAmodel, entity)
     entitydata = EntityData(entity, model.gen_num)
     freeze(model, entitydata)
 end
+
+freeze(entity) = freeze(_g_model, entity)
+
+
+function defrost(model::GAmodel, generation::Int)
+    filter(model.freezer) do entitydata
+        entitydata.generation == generation
+    end
+end
+
+defrost(generation::Int) = defrost(_g_model, generation)
+
 
 function runga(mdl::Module; initial_pop_size = 128)
     model = GAmodel()
