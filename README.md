@@ -120,6 +120,6 @@ model = runga(equalityga; initial_pop_size = 16)
 model.population  # the the latest population when the GA exited
 ```
 
-
+-----
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/WestleyArgentum/geneticalgorithms.jl/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
