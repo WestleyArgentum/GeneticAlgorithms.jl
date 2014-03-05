@@ -10,7 +10,9 @@ export  Entity,
 
         runga,
         freeze,
-        defrost
+        defrost,
+        generation_num,
+        population
 
 # -------
 
@@ -71,6 +73,12 @@ function defrost(model::GAmodel, generation::Int)
 end
 
 defrost(generation::Int) = defrost(_g_model, generation)
+
+
+generation_num(model::GAmodel = _g_model) = model.gen_num
+
+
+population(model::GAmodel = _g_model) = model.population
 
 
 function runga(mdl::Module; initial_pop_size = 128)
