@@ -117,5 +117,5 @@ require("GeneticAlgorithms/test/equalityga.jl")
 
 model = runga(equalityga; initial_pop_size = 16)
 
-model.population  # the the latest population when the GA exited
+population(model)  # the the latest population when the GA exited
 ```
