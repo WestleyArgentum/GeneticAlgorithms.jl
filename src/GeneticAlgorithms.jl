@@ -159,7 +159,7 @@ function crossover_population(model::GAmodel, groupings)
         entity = model.ga.crossover(parents)
 
         push!(model.population, entity)
-        push!(model.pop_data, EntityData(model.ga.crossover(parents), model.gen_num))
+        push!(model.pop_data, EntityData(entity, model.gen_num))
     end
 end
 
