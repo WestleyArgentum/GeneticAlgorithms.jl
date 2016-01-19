@@ -155,7 +155,7 @@ function crossover_population(model::GAmodel, groupings)
     model.gen_num += 1
 
     for group in groupings
-        parents = { old_pop[i] for i in group }
+        parents = Any[ old_pop[i] for i in group ]
         entity = model.ga.crossover(parents)
 
         push!(model.population, entity)
