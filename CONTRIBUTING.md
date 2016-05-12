@@ -1,6 +1,6 @@
 ## Get started contributing
 
-Detailed docs on contributing to Julia packages can be found [here](http://docs.julialang.org/en/release-0.2/manual/packages/?highlight=pkg#package-development).
+Detailed docs on contributing to Julia packages can be found [here](http://docs.julialang.org/en/latest/manual/packages/#making-changes-to-an-existing-package).
 
 ### Code and docs
 To start hacking code or writing docs, simply:
@@ -10,7 +10,7 @@ To start hacking code or writing docs, simply:
 3. ~~Profit~~ Share with the world!
 
 ### Bugs, features, and requests
-Feel free to [file issues](https://github.com/forio/GeneticAlgorithms.jl/issues) when you encounter bugs, think of interesting features you'd like to see, or when there are important changes not yet included in a release and you'd like us to tag a new version.
+Feel free to [file issues](https://github.com/WestleyArgentum/GeneticAlgorithms.jl/issues) when you encounter bugs, think of interesting features you'd like to see, or when there are important changes not yet included in a release and you'd like us to tag a new version.
 
 
 ## Submitting your contributions
