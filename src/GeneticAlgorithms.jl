@@ -147,10 +147,10 @@ function crossover_population(model::GAmodel, groupings)
     old_pop = model.population
 
     model.population = Any[]
-    sizehint(model.population, length(old_pop))
+    sizehint!(model.population, length(old_pop))
 
     model.pop_data = EntityData[]
-    sizehint(model.pop_data, length(old_pop))
+    sizehint!(model.pop_data, length(old_pop))
 
     model.gen_num += 1
 

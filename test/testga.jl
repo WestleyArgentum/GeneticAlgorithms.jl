@@ -57,7 +57,7 @@ end
 
 function test_parallel(; nprocs_to_add = 2)
     addprocs(nprocs_to_add)
-    require("GeneticAlgorithms/test/testga.jl")
+    @everywhere include("testga.jl")
 
     println("nprocs: $(nprocs())")
 
