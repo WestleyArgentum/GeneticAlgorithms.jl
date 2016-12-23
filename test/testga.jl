@@ -57,7 +57,7 @@ end
 
 function test_parallel(; nprocs_to_add = 2)
     addprocs(nprocs_to_add)
-    @everywhere include("testga.jl")
+    @everywhere include(Pkg.dir("GeneticAlgorithms", "test", "testga.jl"))
 
     println("nprocs: $(nprocs())")
 
