@@ -1,14 +1,14 @@
-#GeneticAlgorithms.jl
+# GeneticAlgorithms.jl
 
 [![Build Status](https://travis-ci.org/WestleyArgentum/GeneticAlgorithms.jl.png?branch=master)](https://travis-ci.org/WestleyArgentum/GeneticAlgorithms.jl)
 
-####This is a lightweight framework that simplifies the process of creating genetic algorithms and running them in parallel.
+#### This is a lightweight framework that simplifies the process of creating genetic algorithms and running them in parallel.
 
-##Basic Usage
-###What's your problem???
+## Basic Usage
+### What's your problem???
 Let's say you've got a simple equality `a + 2b + 3c + 4d + 5e = 42` that you'd like come up with a solution for.
 
-###Create a Module
+### Create a Module
 Start by creating a file and a module for your ga. Your module will be loaded into the framework and things inside it will be used to run your algroithm.
 
 ```julia
@@ -17,7 +17,7 @@ module equalityga
 end
 ```
 
-###Define an Entity
+### Define an Entity
 Your entity should inherit from the abstract `GeneticAlgorithms.Entity`. The framework will look for a `create_entity` function and will use it to create an initial population.
 
 ```julia
@@ -37,7 +37,7 @@ end
 
 Note that `EqualityMonster` has a field `fitness`. By default this field will be used by the framework to store the entities calculated fitness, so that you have access to it elsewhere in your GA. If you'd like to change the behavior you can overload `fitness!(entity::EqualityMonster, score)`.
 
-###Create a Fitness Function
+### Create a Fitness Function
 The framework will expect a `fitness` function. It should take in a single entity and return a fitness score.
 
 ```julia
@@ -62,7 +62,7 @@ function isless(lhs::EqualityMonster, rhs::EqualityMonster)
 end
 ```
 
-###Group Entities
+### Group Entities
 `group_entities` operates on a population (an array of entities sorted by score) and will be run as a task and expected to emit groups of entities that will be passed into a crossover function. `group_entitites` also provides a nice way to terminate the GA; if you want to stop, simply produce no groups.
 
 ```julia
@@ -78,7 +78,7 @@ function group_entities(pop)
 end
 ```
 
-###Define Crossover
+### Define Crossover
 `crossover` should take a group of parents and produce a new child entity. In our case we'll just grab properties from random parents.
 
 ```julia
@@ -96,7 +96,7 @@ function crossover(group)
 end
 ```
 
-###Define Mutation
+### Define Mutation
 `mutate` operates on a single entity and is responsible for deciding whether or not to actually mutate.
 
 ```julia
@@ -109,7 +109,7 @@ function mutate(ent)
 end
 ```
 
-###Run your GA!
+### Run your GA!
 
 ```julia
 using GeneticAlgorithms
