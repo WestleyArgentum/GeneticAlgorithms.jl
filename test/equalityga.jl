@@ -9,7 +9,7 @@ mutable struct EqualityMonster <: Entity
     abcde::Array
     fitness
 
-    EqualityMonster() = new(Array(Int, 5), nothing)
+    EqualityMonster() = new(Array{Int}(5), nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
 end
 
