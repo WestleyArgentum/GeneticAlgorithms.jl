@@ -5,11 +5,11 @@ import Base.isless
 
 using GeneticAlgorithms
 
-type EqualityMonster <: Entity
+mutable struct EqualityMonster <: Entity
     abcde::Array
     fitness
 
-    EqualityMonster() = new(Array(Int, 5), nothing)
+    EqualityMonster() = new(Array{Int}(5), nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
 end
 
@@ -50,7 +50,7 @@ function crossover(group)
     # grab each element from a random parent
     num_parents = length(group)
     for i in 1:length(group[1].abcde)
-        parent = (rand(Uint) % num_parents) + 1
+        parent = (rand(UInt) % num_parents) + 1
         child.abcde[i] = group[parent].abcde[i]
     end
 
@@ -61,7 +61,7 @@ function mutate(ent)
     # let's go crazy and mutate 20% of the time
     rand(Float64) < 0.8 && return
 
-    rand_element = rand(Uint) % 5 + 1
+    rand_element = rand(UInt) % 5 + 1
     ent.abcde[rand_element] = rand(Int) % 43
 end
 
