@@ -49,10 +49,8 @@ function crossover(group)
 
     # grab each element from a random parent
     num_parents = length(group)
-    println("--a- $num_parents")
     for i in 1:length(group[1].abcde)
         parent = (rand(UInt) % num_parents) + 1
-        println("--b- $parent")
         child.abcde[i] = group[parent].abcde[i]
     end
 
