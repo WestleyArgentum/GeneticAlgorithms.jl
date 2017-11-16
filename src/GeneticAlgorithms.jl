@@ -96,11 +96,18 @@ function runga(model::GAmodel)
     while true
         evaluate_population(model)
 
-        grouper = @task model.ga.group_entities(model.population)
+        # Setup channel for inter-task communication.
+        grouped = Channel(0);
+        grouper = @schedule model.ga.group_entities(grouped, model.population)
+
+        # Associates the lifetime of grouped channel with the grouping task.
+        bind(grouped, grouper); # This will close the channel once the grouper task has finished.
+
         groupings = Any[]
-        while !istaskdone(grouper)
-            group = consume(grouper)
-            group != nothing && push!(groupings, group)
+
+        # Loop runs as long as the Channel has data or is open. The loop is terminated once the Channel is closed and emptied.
+        for group in grouped
+            push!(groupings, group)
         end
 
         if length(groupings) < 1
