@@ -31,7 +31,7 @@ function fitness(ent)
     abs(score - 42)
 end
 
-function group_entities(pop)
+function group_entities(grouped::Channel, pop)
     println("BEST: ", pop[1])
 
     if pop[1].fitness == 0
@@ -40,7 +40,7 @@ function group_entities(pop)
 
     # simple naive groupings that pair the best entitiy with every other
     for i in 1:length(pop)
-        produce([1, i])
+        put!(grouped, [1, i])
     end
 end
 
