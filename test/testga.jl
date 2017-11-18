@@ -5,7 +5,7 @@ module testga
 
     using GeneticAlgorithms
 
-    type TestMonster <: Entity
+    mutable struct TestMonster <: Entity
         genes
         fitness
 
@@ -23,7 +23,7 @@ module testga
         entity.genes
     end
 
-    function group_entities(population)
+    function group_entities(grouped::Channel, population)
         if population[1].fitness >= 16
             return
         end
@@ -31,7 +31,7 @@ module testga
         freeze(population[1])
 
         for i in 1:length(population)
-            produce([1, i])
+            put!(grouped, [1, i])
         end
     end
 
