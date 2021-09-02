@@ -1,2 +1,7 @@
+name = "GeneticAlgorithms"
+uuid = "d063b88d-234b-4720-a79b-f4478e1df7b8"
+authors = ["ceciliamm <cecilia@badgermapping.com>"]
+version = "0.1.0"
+
 [deps]
 RandomNumbers = "e6cf234a-135c-5ec9-84dd-332b85af5143"
