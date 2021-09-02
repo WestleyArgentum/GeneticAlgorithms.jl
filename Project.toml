@@ -1,6 +1,6 @@
 name = "GeneticAlgorithms"
 uuid = "d063b88d-234b-4720-a79b-f4478e1df7b8"
-authors = ["ceciliamm <cecilia@badgermapping.com>"]
+authors = ["ceci.merelo <ceci.merelo@gmail.com>"]
 version = "0.1.0"
 
 [deps]
