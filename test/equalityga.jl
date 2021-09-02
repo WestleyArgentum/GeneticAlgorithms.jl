@@ -5,7 +5,7 @@ import Base.isless
 
 using GeneticAlgorithms
 
-type EqualityMonster <: Entity
+struct EqualityMonster <: Entity
     abcde::Array
     fitness
 

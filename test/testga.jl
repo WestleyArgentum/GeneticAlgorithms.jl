@@ -5,7 +5,7 @@ module testga
 
     using GeneticAlgorithms
 
-    type TestMonster <: Entity
+    struct TestMonster <: Entity
         genes
         fitness
 

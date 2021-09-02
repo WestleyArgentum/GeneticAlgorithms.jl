@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-importall Base
+using Base, RandomNumbers
 
 export  Entity,
         GAmodel,
@@ -16,7 +16,7 @@ export  Entity,
 
 # -------
 
-abstract Entity
+abstract type Entity end
 
 isless(lhs::Entity, rhs::Entity) = lhs.fitness < rhs.fitness
 
@@ -24,7 +24,7 @@ fitness!(ent::Entity, fitness_score) = ent.fitness = fitness_score
 
 # -------
 
-type EntityData
+struct EntityData
     entity
     generation::Int
 
@@ -34,7 +34,7 @@ end
 
 # -------
 
-type GAmodel
+struct GAmodel
     initial_pop_size::Int
     gen_num::Int
 
