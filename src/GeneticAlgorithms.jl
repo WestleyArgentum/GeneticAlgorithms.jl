@@ -42,7 +42,7 @@ struct GAmodel
     pop_data::Array{EntityData}
     freezer::Array{EntityData}
 
-    rng::AbstractRNG
+    rng::RandomNumbers.AbstractRNG
 
     ga
 
