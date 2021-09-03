@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-using Base, Random, Distributed, Dates
+using Base, Random, Distributed
 
 export  Entity,
         GAmodel,
