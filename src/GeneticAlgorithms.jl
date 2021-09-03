@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-using Base, RandomNumbers, Random
+using Base, Random
 
 export  Entity,
         GAmodel,
@@ -42,7 +42,7 @@ struct GAmodel
     pop_data::Array{EntityData}
     freezer::Array{EntityData}
 
-    rng::RandomNumbers.AbstractRNG
+    rng::MersenneTwister
 
     ga
 
