@@ -5,11 +5,11 @@ import Base.isless
 
 using GeneticAlgorithms
 
-struct EqualityMonster <: Entity
+mutable struct EqualityMonster <: Entity
     abcde::Array
     fitness
 
-    EqualityMonster() = new(Array(Int, 5), nothing)
+    EqualityMonster() = new(Array{Int, 5}[], nothing)
     EqualityMonster(abcde) = new(abcde, nothing)
 end
 
@@ -19,7 +19,7 @@ end
 
 function create_entity(num)
     # for simplicity sake, let's limit the values for abcde to be integers in [-42, 42]
-    EqualityMonster(rand(Int, 5) % 43)
+    EqualityMonster(rand(-43:43, 5))
 end
 
 function fitness(ent)
@@ -29,19 +29,6 @@ function fitness(ent)
     println(score - 42)
 
     abs(score - 42)
-end
-
-function group_entities(pop)
-    println("BEST: ", pop[1])
-
-    if pop[1].fitness == 0
-        return
-    end
-
-    # simple naive groupings that pair the best entitiy with every other
-    for i in 1:length(pop)
-        produce([1, i])
-    end
 end
 
 function crossover(group)

@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-using Base, Random, Distributed
+using Base, Random, Distributed, Dates
 
 export  Entity,
         GAmodel,
@@ -96,18 +96,18 @@ function runga(model::GAmodel)
     while true
         evaluate_population(model)
 
-        grouper = @task model.ga.group_entities(model.population)
-        groupings = Any[]
-        while !istaskdone(grouper)
-            group = consume(grouper)
-            group != nothing && push!(groupings, group)
-        end
+        chnl = Channel{Int}(1)
+        @async for i in 2:length(pop)
+            put!(c, (pop[1], i))
+        end;
+        close(chnl)
 
-        if length(groupings) < 1
+        group = [ x for x in chnl ]
+        if length(group) < 1
             break
         end
 
-        crossover_population(model, groupings)
+        crossover_population(model, group)
         mutate_population(model)
     end
 
