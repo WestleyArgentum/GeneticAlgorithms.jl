@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-importall Base
+using Base, Random, Distributed
 
 export  Entity,
         GAmodel,
@@ -16,7 +16,7 @@ export  Entity,
 
 # -------
 
-abstract Entity
+abstract type Entity end
 
 isless(lhs::Entity, rhs::Entity) = lhs.fitness < rhs.fitness
 
@@ -24,7 +24,7 @@ fitness!(ent::Entity, fitness_score) = ent.fitness = fitness_score
 
 # -------
 
-type EntityData
+struct EntityData
     entity
     generation::Int
 
@@ -34,7 +34,7 @@ end
 
 # -------
 
-type GAmodel
+mutable struct GAmodel
     initial_pop_size::Int
     gen_num::Int
 
@@ -42,7 +42,7 @@ type GAmodel
     pop_data::Array{EntityData}
     freezer::Array{EntityData}
 
-    rng::AbstractRNG
+    rng::MersenneTwister
 
     ga
 
@@ -96,18 +96,18 @@ function runga(model::GAmodel)
     while true
         evaluate_population(model)
 
-        grouper = @task model.ga.group_entities(model.population)
-        groupings = Any[]
-        while !istaskdone(grouper)
-            group = consume(grouper)
-            group != nothing && push!(groupings, group)
-        end
+        chnl = Channel{Int}(1)
+        @async for i in 2:length(pop)
+            put!(c, (pop[1], i))
+        end;
+        close(chnl)
 
-        if length(groupings) < 1
+        group = [ x for x in chnl ]
+        if length(group) < 1
             break
         end
 
-        crossover_population(model, groupings)
+        crossover_population(model, group)
         mutate_population(model)
     end
 

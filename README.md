@@ -21,7 +21,7 @@ end
 Your entity should inherit from the abstract `GeneticAlgorithms.Entity`. The framework will look for a `create_entity` function and will use it to create an initial population.
 
 ```julia
-type EqualityMonster <: Entity
+struct EqualityMonster <: Entity
     abcde::Array
     fitness
 

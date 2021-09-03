@@ -1,11 +1,11 @@
 
-using GeneticAlgorithms
+using GeneticAlgorithms, Distributed
 
 module testga
 
     using GeneticAlgorithms
 
-    type TestMonster <: Entity
+    mutable struct TestMonster <: Entity
         genes
         fitness
 
@@ -21,6 +21,10 @@ module testga
     function fitness(entity)
         println("score: ", entity.genes)
         entity.genes
+    end
+
+    function isless(lhs::TestMonster, rhs::TestMonster)
+        abs(lhs.fitness) > abs(rhs.fitness)
     end
 
     function group_entities(population)
