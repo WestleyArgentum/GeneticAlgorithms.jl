@@ -34,7 +34,7 @@ end
 
 # -------
 
-struct GAmodel
+mutable struct GAmodel
     initial_pop_size::Int
     gen_num::Int
 
