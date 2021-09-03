@@ -3,7 +3,7 @@ module GeneticAlgorithms
 
 # -------
 
-using Base, RandomNumbers
+using Base, RandomNumbers, Random
 
 export  Entity,
         GAmodel,
